@@ -4,6 +4,7 @@ from substrateinterface import SubstrateInterface, Keypair
 substrate = SubstrateInterface(url="wss://tfchain.dev.grid.tf")
 
 
+###################################################################
 result = substrate.query("TfgridModule", "ZosVersion")
 
 print(result)
@@ -31,7 +32,6 @@ print(result)
 ####################################################################################################
 mnemonic = "member imitate cry social luggage hybrid leopard retreat giggle unique segment order"
 keypair = Keypair.create_from_mnemonic(mnemonic)
-
 
 res_hash = hashlib.md5("somedocument".encode()).hexdigest()
 print("The hexadecimal equivalent of hash is : ", end="")
