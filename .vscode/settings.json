@@ -4,6 +4,7 @@
     "autopep",
     "corex",
     "docformatter",
+    "dylanverstraete",
     "Keypair",
     "mypy",
     "pycodestyle",
