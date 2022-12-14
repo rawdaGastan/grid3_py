@@ -1,10 +1,17 @@
 {
-    "cSpell.words": [
-        "corex",
-        "Keypair",
-        "rootfs",
-        "substrateinterface",
-        "sufficients",
-        "zlogs"
-    ]
+  "cSpell.words": [
+    "alelo",
+    "autopep",
+    "corex",
+    "docformatter",
+    "Keypair",
+    "mypy",
+    "pycodestyle",
+    "pydocstyle",
+    "pylint",
+    "rootfs",
+    "substrateinterface",
+    "sufficients",
+    "zlogs"
+  ]
 }

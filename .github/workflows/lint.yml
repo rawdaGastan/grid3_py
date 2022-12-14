@@ -1,0 +1,19 @@
+name: Linting
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - uses: weibullguy/python-lint-plus@master
+        with:
+          python-root-list: "python_alelo tests"
+          use-black: true
+          use-docformatter: true
+          use-pycodestyle: true
+          use-autopep8: true
+          use-pydocstyle: true
+          use-mypy: true
+          use-pylint: true
