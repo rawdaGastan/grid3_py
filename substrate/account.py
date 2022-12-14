@@ -1,7 +1,7 @@
 """Account module"""
 
 from substrateinterface import SubstrateInterface
-from substrate.identity import Identity
+from .identity import Identity
 
 
 class Balance:

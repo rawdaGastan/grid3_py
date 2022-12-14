@@ -1,4 +1,5 @@
-"""utils to be used in testing"""
+"""utils module to be used in testing"""
+
 import os
 from substrateinterface import SubstrateInterface
 
@@ -12,5 +13,6 @@ def start_local_connection():
             sub = SubstrateInterface(url="wss://tfchain.dev.grid.tf")
         assert True
         return sub
-    except Exception:
+
+    except ValueError:
         assert False

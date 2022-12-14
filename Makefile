@@ -1,5 +1,8 @@
 .PHONY: all test clean
 
+requirments:
+	pipreqs . --force
+
 deps:  ## Install dependencies
 	pip install poetry
 	poetry install

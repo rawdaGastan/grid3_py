@@ -1,0 +1,2 @@
+substrate_interface==1.4.1
+substrateinterface==1.0.0

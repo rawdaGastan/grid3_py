@@ -1,16 +1,16 @@
 [tool.poetry]
 authors = ["rawdaGastan <rawda.gastan@gmail.com>"]
 description = ""
-name = "grid3_client_py"
+name = "grid3_py"
+readme = "README.md"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
-pytest = "7.1"
+pytest = "^7.2.0"
 python = "^3.10"
-
-[tool.poetry.dev-dependencies]
-build = "^0.8.0"
+substrateinterface = "^1.0.0"
+substrate-interface = "^1.4.2"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
