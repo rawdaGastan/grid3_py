@@ -10,6 +10,8 @@ pytest = "^7.2.0"
 python = "^3.10"
 substrateinterface = "^1.0.0"
 substrate-interface = "^1.4.2"
+base58 = "^2.1.1"
+ipaddress = "^1.0.23"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"

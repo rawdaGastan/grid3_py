@@ -3,6 +3,9 @@
 import os
 from substrateinterface import SubstrateInterface
 
+ALICE_MNEMONICS = "bottom drive obey lake curtain smoke basket hold race lonely fit walk"
+ALICE_ADDRESS = "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"
+
 
 def start_local_connection():
     """start a substrate local connection to test"""

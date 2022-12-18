@@ -1,4 +1,5 @@
 """Account module"""
+import base58
 
 from substrateinterface import SubstrateInterface
 from .identity import Identity
@@ -28,10 +29,10 @@ class AccountInfo:
 class Account:
     """Account class"""
 
-    def __init__(self, substrate: SubstrateInterface, identity: Identity, account_info: AccountInfo = None):
+    def __init__(self, substrate: SubstrateInterface, identity: Identity):
         self.substrate = substrate
         self.identity = identity
-        self.account_info = account_info
+        self.account_info = None
 
     def get_account(self):
         """get account of the provided account ID"""
@@ -53,14 +54,19 @@ class Account:
 
         self.account_info = AccountInfo(nonce, consumers, providers, sufficients, balance)
 
+        return self.account_info
 
-def from_address_to_public_key(address: str, substrate: SubstrateInterface):
-    """creates an account ID from an SS58 address
-    Args:
-        address (str): SS58 address
-        substrate (SubstrateInterface): substrate instance
-    """
-    return substrate.ss58_decode(address)
+    def is_validator(self):
+        """check if the account ID is a validator"""
+
+        validators = self.substrate.query("TFTBridgeModule", "Validators")
+        print(validators)
+
+        for validator in validators:
+            if self.identity == validator:
+                return True
+
+        return False
 
 
 def get_account_info_from_public_key(public_key: bytes, substrate: SubstrateInterface):
