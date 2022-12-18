@@ -2,7 +2,7 @@
 
 import logging
 
-from .utils import start_local_connection, ALICE_MNEMONICS, ALICE_ADDRESS, ACTIVATION_URL, DOCUMENT_LINK, ALICE_IDENTITY
+from .utils import start_local_connection, ALICE_ADDRESS, ACTIVATION_URL, DOCUMENT_LINK, ALICE_IDENTITY
 from substrate import account
 from substrate import identity
 

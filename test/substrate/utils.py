@@ -15,6 +15,7 @@ ALICE_IDENTITY = identity.new_identity_from_sr25519_mnemonics(ALICE_MNEMONICS)
 IP = str(ipaddress.IPv6Address("201:1061:b395:a8e3:5a0:f481:1102:e85a"))
 DOCUMENT_LINK = "someDocument"
 
+
 def start_local_connection():
     """start a substrate local connection to test"""
     try:
