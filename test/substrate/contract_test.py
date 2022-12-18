@@ -6,8 +6,7 @@ def test_get_account_by_identity():
 
     substrate = start_local_connection()
 
-    test_identity = identity.new_identity_from_sr25519_mnemonics(ALICE_MNEMONICS)
-    test_account = account.Account(substrate, test_identity)
+    test_account = account.Account(substrate, ALICE_IDENTITY)
 
     try:
         test_account.get_account()
