@@ -368,17 +368,6 @@ xxhash = ">=1.3.0,<4"
 test = ["coverage", "pytest"]
 
 [[package]]
-name = "substrateinterface"
-version = "1.0.0"
-description = "Library for interfacing with a Substrate node"
-category = "main"
-optional = false
-python-versions = ">=3.6, <4"
-
-[package.extras]
-test = ["coverage", "pytest"]
-
-[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -431,7 +420,7 @@ python-versions = ">=3.6"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "33e173877a22686a6c357321e8c2971bb9a912778b3483e5420738dc44382ed8"
+content-hash = "abd2e2705f54d3910d75671c65e2fd75054f3c266507da2307b8b1401c9167a5"
 
 [metadata.files]
 attrs = [
@@ -896,10 +885,6 @@ six = [
 substrate-interface = [
     {file = "substrate-interface-1.4.2.tar.gz", hash = "sha256:c5dc637dfa27d4f042de1992916b77872111cce338ed888580ad2831b40d962a"},
     {file = "substrate_interface-1.4.2-py3-none-any.whl", hash = "sha256:2574292b0c915c0303d4a8923408d3df244400e58a90577a551dc80e3edfcbaa"},
-]
-substrateinterface = [
-    {file = "substrateinterface-1.0.0-py3-none-any.whl", hash = "sha256:1998ddf51a2396aeedc0761e186bd23b252582ae85d437f83f12d1f898a3188c"},
-    {file = "substrateinterface-1.0.0.tar.gz", hash = "sha256:4a680528a7fcbea0632dfa2147a74029056c337466dd0803815955ece454634b"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
