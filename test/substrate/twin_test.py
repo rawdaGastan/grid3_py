@@ -7,7 +7,6 @@ from substrate import twin
 
 substrate = start_local_connection()
 test_twin = twin.Twin(substrate, ALICE_IDENTITY)
-
 test_twin_id = 0
 
 
@@ -36,11 +35,11 @@ def test_get_twin():
 
 def test_get_twin_by_public_key():
     """test get twin ID with a public key"""
-    twin_id = twin.get_twin_by_public_key(ALICE_ADDRESS, substrate)
+    twin_id = twin.Twin.get_twin_id_from_public_key(substrate, ALICE_ADDRESS)
     assert twin_id == test_twin_id
 
 
 def test_get_twin_by_id():
     """test get twin with ID"""
-    twin_info = twin.get_twin_by_id(test_twin_id, substrate)
+    twin_info = twin.Twin.get_from_id(substrate, test_twin_id)
     assert twin_info.id == test_twin_id

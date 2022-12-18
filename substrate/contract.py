@@ -1,4 +1,4 @@
-"""Burning module"""
+"""Contract module"""
 
 from substrateinterface import SubstrateInterface
 from .identity import Identity
@@ -10,12 +10,12 @@ class Contract:
         self.identity = identity
 
     def create_capacity_reservation_contract(
-        self, farm: int, policy: CapacityReservationPolicy, solutionProviderID: int
+        self, farm_id: int, policy: CapacityReservationPolicy, solution_provider_id: int
     ):
         call = self.substrate.compose_call(
             "SmartContractModule",
             "capacity_reservation_contract_create",
-            {"farm": farm, "policy": policy, "provider_id": solutionProviderID},
+            {"farm": farm_id, "policy": policy, "provider_id": solution_provider_id},
         )
         # txID, target, types.U64(amount.Uint64()), signature, stellarAddress, sequence_number
 

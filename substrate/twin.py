@@ -1,18 +1,21 @@
 """Twin module"""
+from dataclasses import dataclass
 from substrateinterface import SubstrateInterface
+
+from substrate.exceptions import TwinCreationException, TwinUpdateException
 from .identity import Identity
 import ipaddress
 
 
-class Twin_Info:
+@dataclass
+class TwinInfo:
     """Twin info class"""
 
-    def __init__(self, version: int, id: int, account_id: bytes, ip: ipaddress.IPv6Address, entities: list):
-        self.version = version
-        self.id = id
-        self.account_id = account_id
-        self.ip = ip
-        self.entities = entities
+    version: int
+    id: int
+    account_id: str
+    ip: str
+    entities: list
 
 
 class Twin:
@@ -29,11 +32,13 @@ class Twin:
         Returns:
             Twin_Info: the info for a twin
         """
-        twin_id = get_twin_by_public_key(self.identity.public_key, self.substrate)
-        if twin_id != None:
-            return get_twin_by_id(twin_id, self.substrate)
+        twin_id = self.get_twin_id_from_public_key(self.substrate, self.identity.public_key)
+        if twin_id == None:
+            raise ValueError("account with public key: " + self.identity.public_key + "has no twin")
 
-    def create(self, ip: ipaddress.IPv6Address):
+        return self.get_from_id(self.substrate, twin_id)
+
+    def create(self, ip: str):
         """creates a new twin for account ID
 
         Args:
@@ -42,6 +47,11 @@ class Twin:
         Raises:
             Exception: creating a new twin failed
         """
+        try:
+            ipaddress.IPv6Address(ip)
+        except ValueError:
+            raise ValueError
+
         twin = self.get()
         if twin != None:
             return twin.id
@@ -52,12 +62,12 @@ class Twin:
         result = self.substrate.submit_extrinsic(extrinsic, True, True)
 
         if not result.is_success or result.error_message != None:
-            raise Exception("creating a new twin failed with error: ", result.error_message)
+            raise TwinCreationException(result.error_message)
 
         twin_id = self.get().id
         return twin_id
 
-    def update(self, ip: ipaddress.IPv6Address):
+    def update(self, ip: str):
         """updates a twin with the ip
 
         Args:
@@ -66,51 +76,56 @@ class Twin:
         Raises:
             Exception: updating a new twin failed
         """
+        try:
+            ipaddress.IPv6Address(ip)
+        except ValueError:
+            raise ValueError
+
         call = self.substrate.compose_call("TfgridModule", "update_twin", {"ip": ip})
 
         extrinsic = self.substrate.create_signed_extrinsic(call, self.identity.key_pair)
         result = self.substrate.submit_extrinsic(extrinsic, True, True)
 
         if not result.is_success or result.error_message != None:
-            raise Exception("updating a new twin failed with error: ", result.error_message)
+            raise TwinUpdateException(result.error_message)
 
+    @staticmethod
+    def get_from_id(substrate: SubstrateInterface, id: int):
+        """get the twin info using ID
 
-def get_twin_by_id(id: int, substrate: SubstrateInterface):
-    """get the twin info using ID
+        Args:
+            id (int): the twin id
+            substrate (SubstrateInterface): substrate instance
 
-    Args:
-        id (int): the twin id
-        substrate (SubstrateInterface): substrate instance
+        Raises:
+            Exception: not found
 
-    Raises:
-        Exception: twin not found
+        Returns:
+            Twin_Info: the info for a twin
+        """
+        twin = substrate.query("TfgridModule", "Twins", [id])
+        if twin == None:
+            raise ValueError("twin with id " + id + "is not found")
 
-    Returns:
-        Twin_Info: the info for a twin
-    """
-    twin = substrate.query("TfgridModule", "Twins", [id])
-    if twin["id"].value == 0:
-        raise Exception("twin not found")
+        version = twin["version"].value
+        twin_id = twin["id"].value
+        account_id = twin["account_id"].value
+        ip = twin["ip"].value
+        entities = twin["entities"].value
 
-    version = twin["version"].value
-    twin_id = twin["id"].value
-    account_id = twin["account_id"].value
-    ip = twin["ip"].value
-    entities = twin["entities"].value
+        return TwinInfo(version, twin_id, account_id, ip, entities)
 
-    return Twin_Info(version, twin_id, account_id, ip, entities)
+    @staticmethod
+    def get_twin_id_from_public_key(substrate: SubstrateInterface, public_key: bytes):
+        """get twin ID from a public key
 
+        Args:
+            public_key (bytes): identity public key
+            substrate (SubstrateInterface): substrate client
+        """
 
-def get_twin_by_public_key(public_key: bytes, substrate: SubstrateInterface):
-    """get twin ID from a public key
+        twin_id = substrate.query("TfgridModule", "TwinIdByAccountID", [public_key])
+        if twin_id == 0:
+            raise Exception("twin not found")
 
-    Args:
-        public_key (bytes): identity public key
-        substrate (SubstrateInterface): substrate client
-    """
-
-    twin_id = substrate.query("TfgridModule", "TwinIdByAccountID", [public_key])
-    if twin_id == 0:
-        raise Exception("twin not found")
-
-    return twin_id
+        return twin_id

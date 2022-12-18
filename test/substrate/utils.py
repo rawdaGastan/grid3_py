@@ -4,15 +4,15 @@ import os
 from substrateinterface import SubstrateInterface
 import ipaddress
 
-from substrate import identity
+from substrate.identity import Identity
 
 ACTIVATION_URL = "https://activation.dev.grid.tf/activation/activate"
-
+# TODO change to ALICE ones
 ALICE_MNEMONICS = "trophy asthma barrel bachelor shell unknown helmet cram favorite wrist tissue visa"
 ALICE_ADDRESS = "5HB3uy5fQDXtcEu2yhKMNwoSgVKLnKGtmp7zniPtrotyNm8u"
-ALICE_IDENTITY = identity.new_identity_from_sr25519_mnemonics(ALICE_MNEMONICS)
+ALICE_IDENTITY = Identity.generate_from_phrase(ALICE_MNEMONICS)
 
-IP = str(ipaddress.IPv6Address("201:1061:b395:a8e3:5a0:f481:1102:e85a"))
+IP = "201:1061:b395:a8e3:5a0:f481:1102:e85a"
 DOCUMENT_LINK = "someDocument"
 
 

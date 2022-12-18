@@ -1,78 +1,71 @@
 """Identity module"""
 
+from dataclasses import dataclass
 from substrateinterface import Keypair, KeypairType
 
-NETWORK = 42
+SS58_FORMAT = 42
 
 
+@dataclass
 class Identity:
     """Identity is a user identity"""
 
-    def __init__(self, key_pair: Keypair, sign, identity_type: int, address: str, public_key: bytes, uri):
+    def __init__(self, key_pair: Keypair):
         self.key_pair = key_pair
-        self.sign = sign
-        self.identity_type = identity_type
-        self.address = address
-        self.public_key = public_key
-        self.uri = uri
+        self.sign = self.key_pair.sign
+        self.identity_type = self.key_pair.crypto_type
+        self.address = self.key_pair.ss58_address
+        self.public_key = self.key_pair.public_key
+        self.uri = self.key_pair.derive_path
+
+    @staticmethod
+    def generate_from_ed25519_key(private_key: bytes):
+        """creates a new identity from an ed25519 private key
+
+        Args:
+            private_key (bytes): ed25519 private key
+
+        Returns:
+            Identity: user identity
+        """
+        crypto_type = KeypairType.ED25519
+        key_pair = Keypair.create_from_private_key(private_key, ss58_format=SS58_FORMAT, crypto_type=crypto_type)
+        return Identity(key_pair)
+
+    @staticmethod
+    def generate_from_sr25519_phrase(phrase: str):
+        """creates a new identity from a phrase
+
+        Args:
+            phrase (str): given phrase to generate a key pair
+
+        Returns:
+            Identity: user identity
+        """
+        key_pair = Keypair.create_from_uri(phrase)
+        return Identity(key_pair)
+
+    @staticmethod
+    def generate_from_phrase(phrase: str):
+        """creates a new identity from a phrase/mnemonic
+
+        Args:
+            phrase (str): given mnemonics/phrase to generate a key pair
+
+        Returns:
+            Identity: user identity
+        """
+        key_pair = Keypair.create_from_mnemonic(phrase)
+        return Identity(key_pair)
 
 
-def generate_identity_from_key_pair(key_pair: Keypair):
-    """generates an identity from a given key pair
-
-    Args:
-        key_pair (Keypair): substrate key pair
-
-    Returns:
-        Identity: user identity
-    """
-    identity = Identity(
-        key_pair=key_pair,
-        sign=key_pair.sign,
-        identity_type=key_pair.crypto_type,
-        address=key_pair.ss58_address,
-        public_key=key_pair.public_key,
-        uri=key_pair.derive_path,
-    )
-
-    return identity
-
-
-def new_identity_from_ed25519_key(private_key: bytes):
-    """creates a new identity from an ed25519 private key
-
-    Args:
-        private_key (bytes): ed25519 private key
-
-    Returns:
-        Identity: user identity
-    """
-    crypto_type = KeypairType.ED25519
-    key_pair = Keypair.create_from_private_key(private_key, ss58_format=NETWORK, crypto_type=crypto_type)
-    return generate_identity_from_key_pair(key_pair)
-
-
-def new_identity_from_sr25519_phrase(phrase: str):
-    """creates a new identity from a phrase
-
-    Args:
-        phrase (str): given phrase to generate a key pair
-
-    Returns:
-        Identity: user identity
-    """
-    key_pair = Keypair.create_from_uri(phrase)
-    return generate_identity_from_key_pair(key_pair)
-
-
-def new_identity_from_sr25519_mnemonics(mnemonics: str):
-    """creates a new identity from a phrase
+def generate_key_pair_from_phrase(phrase: str):
+    """generate key pair from mnemonic/phrase
 
     Args:
-        mnemonics (str): given mnemonics to generate a key pair
+        phrase (str): mnemonic/phrase of polka account
 
     Returns:
-        Identity: user identity
+        Keypair: key pair for the phrase/mnemonic
     """
-    key_pair = Keypair.create_from_mnemonic(mnemonics)
-    return generate_identity_from_key_pair(key_pair)
+    return Keypair.create_from_mnemonic(phrase)

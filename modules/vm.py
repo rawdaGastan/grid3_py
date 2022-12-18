@@ -2,6 +2,8 @@
 Grid virtual machine module
 """
 
+from dataclasses import dataclass
+
 
 class VM:
     """VM class for grid virtual machine module"""

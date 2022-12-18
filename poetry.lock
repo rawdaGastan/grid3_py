@@ -76,6 +76,14 @@ toolz = ">=0.8.0"
 cython = ["cython"]
 
 [[package]]
+name = "docopt"
+version = "0.6.2"
+description = "Pythonic argument parser, that will make you smile"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "ecdsa"
 version = "0.18.0"
 description = "ECDSA cryptographic signature library (pure python)"
@@ -209,6 +217,18 @@ description = "Core utilities for Python packages"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "pipreqs"
+version = "0.4.11"
+description = "Pip requirements.txt generator based on imports in project"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+docopt = "*"
+yarg = "*"
 
 [[package]]
 name = "pluggy"
@@ -417,10 +437,21 @@ category = "main"
 optional = false
 python-versions = ">=3.6"
 
+[[package]]
+name = "yarg"
+version = "0.1.9"
+description = "A semi hard Cornish cheese, also queries PyPI (PyPI client)"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+requests = "*"
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "0c3c36ea6a4ec02390f51195b23b09bbf208d6ea3830668a28c85db2d47c6936"
+content-hash = "687939c5033fd6e288cf66faef057744b5a6baa7b35d9729f7137f96ba9f3eef"
 
 [metadata.files]
 attrs = [
@@ -595,6 +626,9 @@ cytoolz = [
     {file = "cytoolz-0.12.0-pp39-pypy39_pp73-win_amd64.whl", hash = "sha256:a8e69c9f3a32e0f9331cf6707a0f159c6dec0ff2a9f41507f6b2d06cd423f0d0"},
     {file = "cytoolz-0.12.0.tar.gz", hash = "sha256:c105b05f85e03fbcd60244375968e62e44fe798c15a3531c922d531018d22412"},
 ]
+docopt = [
+    {file = "docopt-0.6.2.tar.gz", hash = "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"},
+]
 ecdsa = [
     {file = "ecdsa-0.18.0-py2.py3-none-any.whl", hash = "sha256:80600258e7ed2f16b9aa1d7c295bd70194109ad5a30fdee0eaeefef1d4c559dd"},
     {file = "ecdsa-0.18.0.tar.gz", hash = "sha256:190348041559e21b22a1d65cee485282ca11a6f81d503fddb84d5017e9ed1e49"},
@@ -638,6 +672,10 @@ more-itertools = [
 packaging = [
     {file = "packaging-22.0-py3-none-any.whl", hash = "sha256:957e2148ba0e1a3b282772e791ef1d8083648bc131c8ab0c1feba110ce1146c3"},
     {file = "packaging-22.0.tar.gz", hash = "sha256:2198ec20bd4c017b8f9717e00f0c8714076fc2fd93816750ab48e2c41de2cfd3"},
+]
+pipreqs = [
+    {file = "pipreqs-0.4.11-py2.py3-none-any.whl", hash = "sha256:1510a91ae73ef6a8e2f24ffc8751132251cd61a01296d61538f37d1491841640"},
+    {file = "pipreqs-0.4.11.tar.gz", hash = "sha256:c793b4e147ac437871b3a962c5ce467e129c859ece5ba79aca83c20f4d9c3aef"},
 ]
 pluggy = [
     {file = "pluggy-1.0.0-py2.py3-none-any.whl", hash = "sha256:74134bbf457f031a36d68416e1509f34bd5ccc019f0bcc952c7b909d06b37bd3"},
@@ -982,4 +1020,8 @@ xxhash = [
     {file = "xxhash-3.1.0-pp38-pypy38_pp73-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:ea074722fa953a1a3bece979620e2f0b43f2dfca841de84aca32a477c2fdb658"},
     {file = "xxhash-3.1.0-pp38-pypy38_pp73-win_amd64.whl", hash = "sha256:369af334d58f6d2f716bd1557d3580c4c1235077090769abf1d54daec2b301a7"},
     {file = "xxhash-3.1.0.tar.gz", hash = "sha256:ac21b1e21dc6fdfee9a57b53f4777539d53a84f2e1546a3f802f159f9966bdc1"},
+]
+yarg = [
+    {file = "yarg-0.1.9-py2.py3-none-any.whl", hash = "sha256:4f9cebdc00fac946c9bf2783d634e538a71c7d280a4d806d45fd4dc0ef441492"},
+    {file = "yarg-0.1.9.tar.gz", hash = "sha256:55695bf4d1e3e7f756496c36a69ba32c40d18f821e38f61d028f6049e5e15911"},
 ]
