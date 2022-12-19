@@ -126,6 +126,6 @@ class Twin:
 
         twin_id = substrate.query("TfgridModule", "TwinIdByAccountID", [public_key])
         if twin_id == 0:
-            raise Exception("twin not found")
+            raise ValueError("twin with public key " + public_key + " is not found")
 
         return twin_id
