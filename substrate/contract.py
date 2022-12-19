@@ -7,7 +7,6 @@ from substrate.exceptions import (
     CapacityReservationContractCreationException,
     CapacityReservationContractUpdateException,
     ContractCancelException,
-    DeploymentCreationException,
     NameCreationException,
 )
 

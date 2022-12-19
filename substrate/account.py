@@ -33,7 +33,7 @@ class Balance:
         """
 
         account_info = substrate.query("System", "Account", [public_key])
-        data: map = account_info["data"]
+        data = account_info["data"]
 
         free = data["free"].value
         reserved = data["reserved"].value
@@ -71,7 +71,7 @@ class Account:
         providers = account_info["providers"].value
         sufficients = account_info["sufficients"].value
 
-        data: map = account_info["data"]
+        data = account_info["data"]
 
         free = data["free"].value
         reserved = data["reserved"].value
@@ -137,7 +137,7 @@ class Account:
         providers = account_info["providers"].value
         sufficients = account_info["sufficients"].value
 
-        data: map = account_info["data"]
+        data = account_info["data"]
 
         free = data["free"].value
         reserved = data["reserved"].value
