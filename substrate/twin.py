@@ -105,7 +105,7 @@ class Twin:
         """
         twin = substrate.query("TfgridModule", "Twins", [id])
         if twin == None:
-            raise ValueError("twin with id " + id + "is not found")
+            raise ValueError(f"twin with id {id} is not found")
 
         version = twin["version"].value
         twin_id = twin["id"].value
@@ -126,6 +126,6 @@ class Twin:
 
         twin_id = substrate.query("TfgridModule", "TwinIdByAccountID", [public_key])
         if twin_id == 0:
-            raise ValueError("twin with public key " + public_key + " is not found")
+            raise ValueError(f"twin with public key {public_key} is not found")
 
         return twin_id

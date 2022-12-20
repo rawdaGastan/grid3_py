@@ -6,21 +6,13 @@ from substrateinterface import SubstrateInterface
 
 from substrate.node import Resources
 from substrate.identity import Identity
+from substrate.farm import PublicIP
 from substrate.events import Event
 from substrate.exceptions import (
     DeploymentCancelException,
     DeploymentCreationException,
     DeploymentUpdateException,
 )
-
-
-@dataclass
-class PublicIP:
-    """Public IP class"""
-
-    ip: str
-    gateway: str
-    contract_id: int
 
 
 @dataclass
@@ -157,7 +149,7 @@ class Deployment:
 
         deployment = substrate.query("SmartContractModule", "Deployments", [deployment_id])
         if deployment == None:
-            raise ValueError("deployment with id " + id + "is not found")
+            raise ValueError(f"deployment with id {id} is not found")
 
         public_ips: list[PublicIP] = []
         for public_ip in deployment["public_ips"].value:

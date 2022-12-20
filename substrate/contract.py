@@ -10,7 +10,7 @@ from substrate.exceptions import (
     NameCreationException,
 )
 
-from substrate.node import NodeFeatures, Resources
+from substrate.node import ConsumableResources, NodeFeatures, Resources
 from .identity import Identity
 from typing import Any
 
@@ -83,14 +83,6 @@ class NameContract:
     """Name contract class"""
 
     name: str
-
-
-@dataclass
-class ConsumableResources:
-    """Consumable resources class"""
-
-    total_resources: Resources
-    used_resources: Resources
 
 
 @dataclass
@@ -313,7 +305,7 @@ class Contract:
 
         contract = substrate.query("SmartContractModule", "Contracts", [contract_id])
         if contract == None:
-            raise ValueError("contract with id " + contract_id + "is not found")
+            raise ValueError(f"contract with id {contract_id} is not found")
 
         as_deleted_state = DeletedState(
             is_canceled_by_user=contract["state"]["as_deleted"]["is_canceled_by_user"].value,
