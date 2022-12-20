@@ -142,6 +142,15 @@ class NodeCertification:
     is_diy: bool
     is_certified: bool
 
+    def __str__(self):
+        if self.is_certified:
+            return CERTIFIED
+        return DIY
+
+
+DIY = "Diy"
+CERTIFIED = "Certified"
+
 
 @dataclass
 class Node:
@@ -223,30 +232,49 @@ class Node:
 
         return Node.get_id_by_twin_id(substrate, twin_id)
 
+    @staticmethod
     def update(
-        self,
         substrate: SubstrateInterface,
         identity: Identity,
+        node_id: int,
+        farm_id: int,
+        resources: Resources,
+        location: Location,
+        interfaces: list[Interface],
+        secure_boot: bool,
+        virtualized: bool,
+        serial_number: OptionSerial,
     ):
-        """update a node
+        """create a new node
 
         Args:
             substrate (SubstrateInterface): substrate instance
             identity (Identity): contract's owner identity
+            node_id (int): node's ID
+            farm_id (int): node farm's ID
+            resources (Resources): node resources
+            location (Location): node location
+            interfaces (list[Interface]): node interfaces
+            secure_boot (bool): node secure_boot
+            virtualized (bool): node virtualized
+            serial_number (OptionSerial): node serial_number
+
+        Raises:
+            NodeUpdateException: Node update failed
         """
 
         call = substrate.compose_call(
             "TfgridModule",
             "update_node",
             {
-                "id": self.id,
-                "farm_id": self.farm_id,
-                "resources": self.resources,
-                "location": self.location,
-                "interfaces": self.interfaces,
-                "secure_boot": self.secure_boot,
-                "virtualized": self.virtualized,
-                "serial_number": self.serial_number,
+                "node_id": node_id,
+                "farm_id": farm_id,
+                "resources": resources.__dict__,
+                "location": location.__dict__,
+                "interfaces": [i.__dict__ for i in interfaces],
+                "secure_boot": secure_boot,
+                "virtualized": virtualized,
+                "serial_number": serial_number.as_value,
             },
         )
 
@@ -256,7 +284,8 @@ class Node:
         if not call_response.is_success or call_response.error_message != None:
             raise NodeUpdateException(call_response.error_message)
 
-        return Node.get_id_by_twin_id(substrate, self.twin_id)
+        twin_id = Twin.get_twin_id_from_public_key(substrate, identity.address)
+        return Node.get_id_by_twin_id(substrate, twin_id)
 
     @staticmethod
     def update_uptime(substrate: SubstrateInterface, identity: Identity, uptime: int):
@@ -289,7 +318,7 @@ class Node:
             NodeUpdateException: failed setting certification
         """
         call = substrate.compose_call(
-            "TfgridModule", "set_node_certification", {"node_id": node_id, "certification": cert}
+            "TfgridModule", "set_node_certification", {"node_id": node_id, "node_certification": str(cert)}
         )
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
@@ -311,7 +340,7 @@ class Node:
             NodeUpdateException: failed setting certification
         """
         call = substrate.compose_call(
-            "TfgridModule", "change_power_state", {"node_id": node_id, "power_state": power_state}
+            "TfgridModule", "change_power_state", {"node_id": node_id, "power_state": power_state.__dict__}
         )
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)

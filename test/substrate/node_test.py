@@ -1,9 +1,11 @@
 """Node testing"""
 
+import logging
+from substrate.exceptions import NodeUpdateException
 from substrate.farm import Farm
 from substrate.twin import Twin
 from .utils import start_local_connection, ALICE_IDENTITY, TEST_FARM_NAME, ALICE_ADDRESS
-from substrate.node import Location, Node, OptionSerial, Resources
+from substrate.node import Location, Node, NodeCertification, OptionSerial, PowerState, Resources
 
 gigabyte = 1024 * 1024 * 1024
 
@@ -44,6 +46,63 @@ def test_create_node():
     test_twin_id = Twin.get_twin_id_from_public_key(substrate, ALICE_ADDRESS)
 
     assert test_node_id != 0
+
+
+def test_update_node():
+    """test update node"""
+
+    resources = Resources(
+        hru=1024 * gigabyte,
+        sru=100 * gigabyte,
+        cru=8,
+        mru=1024 * gigabyte,
+    )
+
+    location = Location(
+        city="someCity",
+        country="someCountry",
+        latitude="51.049999",
+        longitude="3.733333",
+    )
+
+    serial_number = OptionSerial(has_value=True, as_value="some_serial")
+
+    try:
+        Node.update(
+            substrate, ALICE_IDENTITY, test_node_id, test_farm_id, resources, location, [], False, False, serial_number
+        )
+    except NodeUpdateException as exp:
+        logging.exception(exp)
+
+
+'''TODO
+def test_set_node_certification():
+    """test set node certificate"""
+    certification = NodeCertification(is_diy=True, is_certified=False)
+
+    try:
+        Node.set_node_certificate(substrate, ALICE_IDENTITY, test_node_id, certification)
+    except NodeUpdateException as exp:
+        logging.exception(exp)
+
+def test_set_node_certification():
+    """test set node certificate"""
+    power_state = PowerState(is_up=True, is_down=False, as_down=0)
+    
+    try:
+        Node.set_node_power_state(substrate, ALICE_IDENTITY, test_node_id, power_state)
+    except NodeUpdateException as exp:
+        logging.exception(exp)
+             
+
+def test_update_node_uptime():
+    """test update node uptime"""
+    
+    try:
+        Node.update_uptime(substrate, ALICE_IDENTITY, 0)
+    except NodeUpdateException as exp:
+        logging.exception(exp)
+'''
 
 
 def test_get_node_id_by_twin_id():
