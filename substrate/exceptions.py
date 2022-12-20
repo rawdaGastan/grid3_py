@@ -15,12 +15,33 @@ Exceptions module
 - DeploymentUpdateException
 - DeploymentCancelException
 
+- NodeCreationException
+- NodeUpdateException
+- NodeUpdateUptimeException
+
+- FarmCreationException
 """
 
 
 class GridException(Exception):
     def __init__(self, message, category=None, level=None, context=None):
         super().__init__(message)
+
+
+class FarmCreationException(GridException):
+    pass
+
+
+class NodeCreationException(GridException):
+    pass
+
+
+class NodeUpdateException(GridException):
+    pass
+
+
+class NodeUpdateUptimeException(GridException):
+    pass
 
 
 class DeploymentCreationException(GridException):
