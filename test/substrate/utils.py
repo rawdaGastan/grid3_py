@@ -13,7 +13,9 @@ ALICE_IDENTITY = Identity.generate_from_phrase(ALICE_MNEMONICS)
 
 IP = "201:1061:b395:a8e3:5a0:f481:1102:e85a"
 DOCUMENT_LINK = "someDocument"
-TEST_FARM_NAME = "test_farm"
+TEST_NAME = "test_name"
+
+GIGABYTE = 1024 * 1024 * 1024
 
 
 def start_local_connection():

@@ -6,9 +6,11 @@ Exceptions module
 
 - AccountActivationFailed
 
-- CapacityReservationContractCreationException
-- CapacityReservationContractUpdateException
-- NameCreationException
+- NodeContractCreationException
+- NodeContractUpdateException
+- NameContractCreationException
+- RentCreationCreationException
+- ContractConsumptionException
 - ContractCancelException
 
 - DeploymentCreationException
@@ -26,6 +28,22 @@ Exceptions module
 class GridException(Exception):
     def __init__(self, message, category=None, level=None, context=None):
         super().__init__(message)
+
+
+class RentContractCreationException(GridException):
+    pass
+
+
+class ContractConsumptionException(GridException):
+    pass
+
+
+class RentCreationCreationException(GridException):
+    pass
+
+
+class NameContractCreationException(GridException):
+    pass
 
 
 class FarmCreationException(GridException):
@@ -72,11 +90,11 @@ class AcceptingTermsAndConditionsFailed(GridException):
     pass
 
 
-class CapacityReservationContractCreationException(GridException):
+class NodeContractCreationException(GridException):
     pass
 
 
-class CapacityReservationContractUpdateException(GridException):
+class NodeContractUpdateException(GridException):
     pass
 
 

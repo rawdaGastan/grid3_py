@@ -1,7 +1,6 @@
 """events records module"""
 
 from dataclasses import dataclass
-from substrateinterface import SubstrateInterface
 
 from substrate.contract import Contract
 from substrate.deployment import Deployment

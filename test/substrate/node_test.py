@@ -1,13 +1,12 @@
 """Node testing"""
 
 import logging
+import pytest
 from substrate.exceptions import NodeUpdateException
 from substrate.farm import Farm
 from substrate.twin import Twin
-from .utils import start_local_connection, ALICE_IDENTITY, TEST_FARM_NAME, ALICE_ADDRESS
-from substrate.node import Location, Node, NodeCertification, OptionSerial, PowerState, Resources
-
-gigabyte = 1024 * 1024 * 1024
+from .utils import start_local_connection, ALICE_IDENTITY, TEST_NAME, ALICE_ADDRESS, GIGABYTE
+from substrate.node import Location, Node, NodeCertification, OptionSerial, Resources
 
 substrate = start_local_connection()
 test_node_id = 0
@@ -19,13 +18,13 @@ def test_create_node():
     """test create node"""
 
     global test_farm_id
-    test_farm_id = Farm.create(substrate, ALICE_IDENTITY, TEST_FARM_NAME, [])
+    test_farm_id = Farm.create(substrate, ALICE_IDENTITY, TEST_NAME, [])
 
     resources = Resources(
-        hru=1024 * gigabyte,
-        sru=100 * gigabyte,
+        hru=1024 * GIGABYTE,
+        sru=100 * GIGABYTE,
         cru=8,
-        mru=1024 * gigabyte,
+        mru=1024 * GIGABYTE,
     )
 
     location = Location(
@@ -52,10 +51,10 @@ def test_update_node():
     """test update node"""
 
     resources = Resources(
-        hru=1024 * gigabyte,
-        sru=100 * gigabyte,
+        hru=1024 * GIGABYTE,
+        sru=100 * GIGABYTE,
         cru=8,
-        mru=1024 * gigabyte,
+        mru=1024 * GIGABYTE,
     )
 
     location = Location(
@@ -75,26 +74,15 @@ def test_update_node():
         logging.exception(exp)
 
 
-'''TODO
 def test_set_node_certification():
     """test set node certificate"""
     certification = NodeCertification(is_diy=True, is_certified=False)
 
-    try:
+    with pytest.raises(Exception) as e:
         Node.set_node_certificate(substrate, ALICE_IDENTITY, test_node_id, certification)
-    except NodeUpdateException as exp:
-        logging.exception(exp)
 
-def test_set_node_certification():
-    """test set node certificate"""
-    power_state = PowerState(is_up=True, is_down=False, as_down=0)
-    
-    try:
-        Node.set_node_power_state(substrate, ALICE_IDENTITY, test_node_id, power_state)
-    except NodeUpdateException as exp:
-        logging.exception(exp)
-             
 
+'''TODO  
 def test_update_node_uptime():
     """test update node uptime"""
     

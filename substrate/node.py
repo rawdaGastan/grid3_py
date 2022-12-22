@@ -327,28 +327,6 @@ class Node:
             raise NodeUpdateException(call_response.error_message)
 
     @staticmethod
-    def set_node_power_state(substrate: SubstrateInterface, identity: Identity, node_id: int, power_state: PowerState):
-        """set node certificate using its ID
-
-        Args:
-            substrate (SubstrateInterface): substrate instance
-            identity (Identity): identity of the user
-            node_id (int): node's ID
-            power_state (PowerState): power state
-
-        Raises:
-            NodeUpdateException: failed setting certification
-        """
-        call = substrate.compose_call(
-            "TfgridModule", "change_power_state", {"node_id": node_id, "power_state": power_state.__dict__}
-        )
-        extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
-        call_response = substrate.submit_extrinsic(extrinsic, True, True)
-
-        if not call_response.is_success or call_response.error_message != None:
-            raise NodeUpdateException(call_response.error_message)
-
-    @staticmethod
     def get_id_by_twin_id(substrate: SubstrateInterface, twin_id: int):
         """get node id by its twin id
 
