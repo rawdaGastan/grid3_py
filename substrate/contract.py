@@ -126,7 +126,7 @@ class Contract:
         Returns:
             int: contract ID
         """
-        
+
         byte_hash = str.encode(hash)
         if len(byte_hash) <= 32:
             byte_hash_32 = byte_hash + bytearray(32 - len(byte_hash))
@@ -148,10 +148,10 @@ class Contract:
                 "solution_provider_id": solution_provider_id,
             },
         )
-        
+
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
-        
+
         if not call_response.is_success or call_response.error_message != None:
             raise NodeContractCreationException(call_response.error_message)
 
@@ -223,7 +223,7 @@ class Contract:
         Returns:
             int: contract ID
         """
-        
+
         contract_id = substrate.query("SmartContractModule", "ContractIDByNodeIDAndHash", [node_id, hash])
         if contract_id == None:
             raise ValueError("can't get ID for a contract with node id: " + node_id)
@@ -391,11 +391,11 @@ class Contract:
                 is_canceled_by_user=contract["state"]["is_canceled_by_user"].value,
                 is_out_of_funds=contract["state"]["is_out_of_funds"].value,
             )
-        
+
         grace_period_block_number = 0
         if contract["state"] == "GracePeriod":
             grace_period_block_number = contract["state"]["grace_period_block_number"].value
-            
+
         contract_state = ContractState(
             is_created=contract["state"] == "Created",
             is_deleted=contract["state"] == "Deleted",
@@ -404,12 +404,12 @@ class Contract:
             as_grace_period_block_number=grace_period_block_number,
         )
 
-        node_contract = NodeContract(0, None, "", 0, []) 
+        node_contract = NodeContract(0, None, "", 0, [])
         if "NodeContract" in contract["contract_type"]:
             public_ips: list[PublicIP] = []
             for public_ip in contract["contract_type"].value["NodeContract"]["public_ips_list"]:
                 public_ips.append(PublicIP(public_ip["ip"], public_ip["gw"], public_ip["contract_id"]))
-                
+
             node_contract = NodeContract(
                 node_id=contract["contract_type"].value["NodeContract"]["node_id"],
                 deployment_hash=contract["contract_type"].value["NodeContract"]["deployment_hash"],
@@ -417,15 +417,15 @@ class Contract:
                 public_ips_count=contract["contract_type"].value["NodeContract"]["public_ips"],
                 public_ips=public_ips,
             )
-            
-        name_contract = NameContract("") 
+
+        name_contract = NameContract("")
         if "NameContract" in contract["contract_type"]:
             name_contract = NameContract(contract["contract_type"].value["NameContract"]["name"])
-            
-        rent_contract = RentContract(0) 
+
+        rent_contract = RentContract(0)
         if "RentContract" in contract["contract_type"]:
             node_contract = RentContract(contract["contract_type"].value["RentContract"]["node_id"])
-        
+
         contract_type = ContractType(
             is_name_contract="NameContract" in contract["contract_type"],
             name_contract=name_contract,
