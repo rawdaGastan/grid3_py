@@ -14,7 +14,7 @@ from substrate.exceptions import (
     DeploymentUpdateException,
 )
 
-
+# TODO ?? power management??
 @dataclass
 class Deployment:
     """Deployment class"""

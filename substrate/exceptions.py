@@ -22,12 +22,29 @@ Exceptions module
 - NodeUpdateUptimeException
 
 - FarmCreationException
+
+- RefundTransactionCreationOrAddingSigException
+- SetRefundTransactionExecutedException
+
+- ProposeOrVoteMintTransactionException
 """
 
 
 class GridException(Exception):
     def __init__(self, message, category=None, level=None, context=None):
         super().__init__(message)
+
+
+class ProposeOrVoteMintTransactionException(GridException):
+    pass
+
+
+class SetRefundTransactionExecutedException(GridException):
+    pass
+
+
+class RefundTransactionCreationOrAddingSigException(GridException):
+    pass
 
 
 class RentContractCreationException(GridException):

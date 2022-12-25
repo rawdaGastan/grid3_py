@@ -1,7 +1,5 @@
 """contract testing"""
 
-## 4 tests
-
 import logging
 from substrate.contract import Contract
 from substrate.farm import Farm
