@@ -3,7 +3,11 @@
 from substrateinterface import SubstrateInterface
 
 from substrate.account import Account
+from substrate.bridge import RefundTransaction, MintTransaction
+from substrate.contract import Contract
+from substrate.farm import Farm
 from substrate.twin import Twin
+from substrate.node import Node
 from .identity import Identity
 
 
@@ -23,5 +27,10 @@ class Manager:
     def __init__(self, identity: Identity, substrate_url: str):
         self.substrate = SubstrateInterface(substrate_url)
 
-        self.account = Account(self.substrate, identity)
-        self.twin = Twin(self.substrate, identity)
+        self.account = Account
+        self.twin = Twin
+        self.farm = Farm
+        self.node = Node
+        self.contract = Contract
+        self.refund_transaction = RefundTransaction
+        self.mint_transaction = MintTransaction

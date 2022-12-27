@@ -1,6 +1,5 @@
 """contract testing"""
 
-import logging
 from substrate.contract import Contract
 from substrate.farm import Farm
 from substrate.node import Location, Node, OptionSerial, Resources

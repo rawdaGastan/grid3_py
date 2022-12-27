@@ -23,10 +23,10 @@ def test_refund_transactions():
         logging.exception(exp)
 
     # ValidatorNotExists
-    with pytest.raises(SetRefundTransactionExecutedException) as e:
+    with pytest.raises(SetRefundTransactionExecutedException):
         RefundTransaction.set_refund_transaction_executed(substrate, ALICE_IDENTITY, "test_hash")
 
-    assert RefundTransaction.is_refunded_already(substrate, "test_hash") == False
+    assert not RefundTransaction.is_refunded_already(substrate, "test_hash")
 
     refund_transaction = RefundTransaction.get(substrate, "test_hash")
 
@@ -37,7 +37,7 @@ def test_mint_transactions():
     """test mint transactions"""
 
     # ValidatorNotExists
-    with pytest.raises(ProposeOrVoteMintTransactionException) as e:
+    with pytest.raises(ProposeOrVoteMintTransactionException):
         MintTransaction.propose_or_vote_mint_transaction(substrate, ALICE_IDENTITY, "test_id", ALICE_ADDRESS, 1)
 
-    assert MintTransaction.is_minted_already(substrate, "test_id") == False
+    assert not MintTransaction.is_minted_already(substrate, "test_id")

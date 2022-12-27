@@ -14,7 +14,6 @@ from substrate.farm import PublicIP
 
 from substrate.node import NodeFeatures, Resources
 from .identity import Identity
-from typing import Any
 
 
 @dataclass

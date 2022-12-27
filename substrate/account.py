@@ -2,7 +2,6 @@
 from dataclasses import dataclass
 import hashlib
 import http
-from urllib import request
 import requests
 
 from substrateinterface import SubstrateInterface

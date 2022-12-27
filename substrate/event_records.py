@@ -10,8 +10,8 @@ from substrate.deployment import Deployment
 class Phase:
     """Phase is a class describing the current phase of the event (applying the extrinsic or finalized)"""
 
-    is_applyExtrinsic: bool
-    as_applyExtrinsic: int
+    is_apply_extrinsic: bool
+    as_apply_extrinsic: int
     is_finalization: bool
     is_initialization: bool
 
@@ -107,6 +107,7 @@ class EventRecords:
     SmartContractModule_ContractCreated: list[ContractCreated]
     SmartContractModule_ContractUpdated: list[ContractUpdated]
     SmartContractModule_NameContractCanceled: list[NameContractCanceled]
+    """
     SmartContractModule_IPsReserved: list[IPsReserved]
     SmartContractModule_IPsFreed: list[IPsFreed]
     SmartContractModule_ContractDeployed: list[ContractDeployed]
@@ -124,6 +125,7 @@ class EventRecords:
     SmartContractModule_GroupCreated: list[GroupCreated]
     SmartContractModule_GroupDeleted: list[GroupDeleted]
     SmartContractModule_CapacityReservationContractCanceled: list[CapacityReservationContractCanceled]
+    """
     SmartContractModule_DeploymentCreated: list[DeploymentCreated]
     SmartContractModule_DeploymentUpdated: list[DeploymentUpdated]
     SmartContractModule_DeploymentCanceled: list[DeploymentCanceled]
@@ -131,7 +133,7 @@ class EventRecords:
     ###################
     # TF grid module #
     ###################
-
+    """
     # farm events
     TfgridModule_FarmStored: list[FarmStored]
     TfgridModule_FarmUpdated: list[FarmStored]
@@ -261,3 +263,4 @@ class EventRecords:
     Dao_Closed: list[Closed]
     Dao_ClosedByCouncil: list[ClosedByCouncil]
     Dao_CouncilMemberVeto: list[CouncilMemberVeto]
+    """

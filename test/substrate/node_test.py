@@ -78,7 +78,7 @@ def test_set_node_certification():
     """test set node certificate"""
     certification = NodeCertification(is_diy=True, is_certified=False)
 
-    with pytest.raises(Exception) as e:
+    with pytest.raises(Exception):
         Node.set_node_certificate(substrate, ALICE_IDENTITY, test_node_id, certification)
 
 
