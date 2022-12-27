@@ -227,7 +227,7 @@ class Node:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise NodeCreationException(call_response.error_message)
 
         return Node.get_id_by_twin_id(substrate, twin_id)
@@ -281,7 +281,7 @@ class Node:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise NodeUpdateException(call_response.error_message)
 
         twin_id = Twin.get_twin_id_from_public_key(substrate, identity.address)
@@ -301,7 +301,7 @@ class Node:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise NodeUpdateUptimeException(call_response.error_message)
 
     @staticmethod
@@ -323,7 +323,7 @@ class Node:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise NodeUpdateException(call_response.error_message)
 
     @staticmethod
@@ -394,7 +394,7 @@ class Node:
         """
 
         node = substrate.query("TfgridModule", "Nodes", [node_id])
-        if node == None:
+        if node.value is None:
             raise ValueError(f"node with id {node_id} is not found")
 
         resources = Resources(
@@ -426,14 +426,14 @@ class Node:
         """
 
         public_config = None
-        if node["public_config"] != None:
+        if node["public_config"].value is not None:
             ip4 = IP(
                 ip=node["public_config"]["ip4"]["ip"].value,
                 gw=node["public_config"]["ip4"]["gw"].value,
             )
 
             ip6 = OptionIP(
-                has_value=node["public_config"]["ip6"] != None,
+                has_value=node["public_config"]["ip6"].value is not None,
                 as_value=IP(
                     ip=node["public_config"]["ip6"]["ip"].value,
                     gw=node["public_config"]["ip6"]["gw"].value,
@@ -441,7 +441,7 @@ class Node:
             )
 
             domain = OptionDomain(
-                has_value=node["public_config"]["domain"] != None,
+                has_value=node["public_config"]["domain"].value is not None,
                 as_value=node["public_config"]["domain"].value,
             )
 
@@ -456,7 +456,7 @@ class Node:
         )
 
         serial_number = OptionSerial(
-            has_value=node["serial_number"].value != None, as_value=node["serial_number"].value
+            has_value=node["serial_number"].value is not None, as_value=node["serial_number"].value
         )
 
         return Node(
@@ -466,7 +466,7 @@ class Node:
             twin_id=node["twin_id"].value,
             resources=resources,
             location=location,
-            power=None,  # TODE: power
+            power=None,  # TODO: power
             public_config=public_config,
             created=node["created"].value,
             farming_policy=node["farming_policy_id"].value,

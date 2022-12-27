@@ -88,7 +88,7 @@ class Farm:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise FarmCreationException(call_response.error_message)
 
         return Farm.get_farm_id_by_name(substrate, name)
@@ -109,7 +109,7 @@ class Farm:
         """
 
         farm = substrate.query("TfgridModule", "Farms", [farm_id])
-        if farm == None:
+        if farm.value is None:
             raise ValueError(f"farm with id {farm_id} is not found")
 
         certification = FarmCertification(
@@ -121,7 +121,7 @@ class Farm:
             public_ips.append(PublicIP(ip=public_ip["ip"], gw=public_ip["gw"], contract_id=public_ip["contract_id"]))
 
         farming_policies_limit = OptionFarmingPolicyLimit(False, None)
-        if farm["farming_policy_limits"] != None:
+        if farm["farming_policy_limits"].value is not None:
             farming_policies_limit = OptionFarmingPolicyLimit(
                 has_value=True,
                 as_value=FarmingPolicyLimit(

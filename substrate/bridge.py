@@ -71,7 +71,7 @@ class RefundTransaction:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise RefundTransactionCreationOrAddingSigException(call_response.error_message)
 
     @staticmethod
@@ -95,7 +95,7 @@ class RefundTransaction:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise SetRefundTransactionExecutedException(call_response.error_message)
 
     @staticmethod
@@ -138,8 +138,6 @@ class RefundTransaction:
             raise ValueError(f"hash length {len(byte_hash)} is not valid")
 
         refunded_transaction = substrate.query("TFTBridgeModule", "RefundTransactions", [byte_hash_32])
-
-        print(refunded_transaction)
 
         signatures: list[StellarSignature] = []
         for signature in refunded_transaction["signatures"].value:
@@ -194,7 +192,7 @@ class MintTransaction:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise ProposeOrVoteMintTransactionException(call_response.error_message)
 
     @staticmethod
@@ -209,6 +207,6 @@ class MintTransaction:
             ValueError: getting failed
         """
         refunded_transaction = substrate.query("TFTBridgeModule", "ExecutedMintTransactions", [tx_id])
-        if refunded_transaction != None:
+        if refunded_transaction.value is not None:
             return True
         return False

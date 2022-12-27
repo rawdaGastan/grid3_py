@@ -33,7 +33,7 @@ class Twin:
             Twin_Info: the info for a twin
         """
         twin_id = self.get_twin_id_from_public_key(self.substrate, self.identity.public_key)
-        if twin_id == None:
+        if twin_id.value is None:
             raise ValueError("account with public key: " + self.identity.public_key + "has no twin")
 
         return self.get_from_id(self.substrate, twin_id)
@@ -53,16 +53,16 @@ class Twin:
             raise ValueError
 
         twin = self.get()
-        if twin != None:
+        if twin is not None:
             return twin.id
 
         call = self.substrate.compose_call("TfgridModule", "create_twin", {"ip": ip})
 
         extrinsic = self.substrate.create_signed_extrinsic(call, self.identity.key_pair)
-        result = self.substrate.submit_extrinsic(extrinsic, True, True)
+        call_response = self.substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not result.is_success or result.error_message != None:
-            raise TwinCreationException(result.error_message)
+        if not call_response.is_success:
+            raise TwinCreationException(call_response.error_message)
 
         twin_id = self.get().id
         return twin_id
@@ -84,10 +84,10 @@ class Twin:
         call = self.substrate.compose_call("TfgridModule", "update_twin", {"ip": ip})
 
         extrinsic = self.substrate.create_signed_extrinsic(call, self.identity.key_pair)
-        result = self.substrate.submit_extrinsic(extrinsic, True, True)
+        call_response = self.substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not result.is_success or result.error_message != None:
-            raise TwinUpdateException(result.error_message)
+        if not call_response.is_success:
+            raise TwinUpdateException(call_response.error_message)
 
     @staticmethod
     def get_from_id(substrate: SubstrateInterface, id: int):
@@ -104,7 +104,7 @@ class Twin:
             Twin_Info: the info for a twin
         """
         twin = substrate.query("TfgridModule", "Twins", [id])
-        if twin == None:
+        if twin.value is None:
             raise ValueError(f"twin with id {id} is not found")
 
         version = twin["version"].value

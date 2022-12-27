@@ -94,7 +94,7 @@ class Account:
         """
 
         signed_terms = self.signed_terms_and_conditions(self.substrate, self.identity.public_key)
-        if signed_terms != None and len(signed_terms) > 0:
+        if signed_terms.value is None and len(signed_terms) > 0:
             return
 
         document_hash = hashlib.md5(document_link.encode()).hexdigest()
@@ -106,10 +106,10 @@ class Account:
         )
 
         extrinsic = self.substrate.create_signed_extrinsic(call, self.identity.key_pair)
-        result = self.substrate.submit_extrinsic(extrinsic, True, True)
+        call_response = self.substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not result.is_success or result.error_message != None:
-            raise AcceptingTermsAndConditionsFailed(result.error_message)
+        if not call_response.is_success:
+            raise AcceptingTermsAndConditionsFailed(call_response.error_message)
 
     def is_validator(self):
         """check if the account ID is a validator"""

@@ -151,7 +151,7 @@ class Contract:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise NodeContractCreationException(call_response.error_message)
 
         return Contract.get_contract_id_with_hash_and_node_id(substrate, node_id, byte_hash_32)
@@ -183,7 +183,7 @@ class Contract:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise NodeContractUpdateException(call_response.error_message)
 
     @staticmethod
@@ -224,7 +224,7 @@ class Contract:
         """
 
         contract_id = substrate.query("SmartContractModule", "ContractIDByNodeIDAndHash", [node_id, hash])
-        if contract_id == None:
+        if contract_id.value is None:
             raise ValueError("can't get ID for a contract with node id: " + node_id)
 
         return contract_id
@@ -251,7 +251,7 @@ class Contract:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise NameContractCreationException(call_response.error_message)
 
         return Contract.get_contract_id_by_name_registration(substrate, name)
@@ -298,7 +298,7 @@ class Contract:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise RentContractCreationException(call_response.error_message)
 
         return Contract.get_node_rent_contract_id(substrate, node_id)
@@ -318,7 +318,7 @@ class Contract:
         """
 
         contract_id = substrate.query("SmartContractModule", "ActiveRentContractForNode", [node_id])
-        if contract_id == None:
+        if contract_id.value is None:
             raise ValueError(f"can't get ID for a contract with node ID: {node_id}")
 
         return contract_id
@@ -350,7 +350,7 @@ class Contract:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise ContractConsumptionException(call_response.error_message)
 
     @staticmethod
@@ -368,7 +368,7 @@ class Contract:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise ContractCancelException(call_response.error_message)
 
     @staticmethod
@@ -381,7 +381,7 @@ class Contract:
         """
 
         contract = substrate.query("SmartContractModule", "Contracts", [contract_id])
-        if contract == None:
+        if contract.value is None:
             raise ValueError(f"contract with id {contract_id} is not found")
 
         as_deleted_state = DeletedState(False, False)

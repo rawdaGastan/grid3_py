@@ -65,7 +65,7 @@ class Deployment:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise DeploymentCreationException(call_response.error_message)
 
         deployment_ids = Event.get_created_deployments_ids(substrate, call_response)
@@ -110,7 +110,7 @@ class Deployment:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise DeploymentUpdateException(call_response.error_message)
 
         deployment_ids = Event.get_updated_deployments_ids(substrate, call_response)
@@ -135,7 +135,7 @@ class Deployment:
         extrinsic = substrate.create_signed_extrinsic(call, identity.key_pair)
         call_response = substrate.submit_extrinsic(extrinsic, True, True)
 
-        if not call_response.is_success or call_response.error_message != None:
+        if not call_response.is_success:
             raise DeploymentCancelException(call_response.error_message)
 
     @staticmethod
@@ -148,7 +148,7 @@ class Deployment:
         """
 
         deployment = substrate.query("SmartContractModule", "Deployments", [deployment_id])
-        if deployment == None:
+        if deployment.value is None:
             raise ValueError(f"deployment with id {id} is not found")
 
         public_ips: list[PublicIP] = []

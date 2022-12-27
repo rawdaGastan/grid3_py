@@ -33,7 +33,7 @@ def test_signed_terms_and_conditions():
     """test signed terms and conditions"""
     signed_terms_and_conditions = account.Account.signed_terms_and_conditions(substrate, ALICE_ADDRESS)
 
-    if signed_terms_and_conditions != None and len(signed_terms_and_conditions) > 0:
+    if signed_terms_and_conditions.value is not None and len(signed_terms_and_conditions) > 0:
         assert True
     else:
         assert False
