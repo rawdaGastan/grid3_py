@@ -2,7 +2,7 @@
 
 import logging
 
-from .utils import start_local_connection, ALICE_ADDRESS, ACTIVATION_URL, DOCUMENT_LINK, ALICE_IDENTITY
+from .utils import start_local_connection, ALICE_ADDRESS, ACTIVATION_URL, DOCUMENT_LINK, ALICE_IDENTITY, DOCUMENT_HASH
 from substrate import account
 
 substrate = start_local_connection()
@@ -22,7 +22,7 @@ def test_activate_account():
 def test_accept_terms_and_conditions():
     """test accept terms and conditions"""
     try:
-        test_account.accept_terms_and_conditions(DOCUMENT_LINK)
+        test_account.accept_terms_and_conditions(DOCUMENT_LINK, DOCUMENT_HASH)
         assert True
     except Exception as exp:
         logging.exception(exp)

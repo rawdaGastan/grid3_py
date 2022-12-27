@@ -83,11 +83,12 @@ class Account:
 
         return self.account_info
 
-    def accept_terms_and_conditions(self, document_link: str):
+    def accept_terms_and_conditions(self, document_link: str, document_hash: str):
         """accepting terms and conditions
 
         Args:
             document_link (str): document link
+            document_hash (str): document hash
 
         Raises:
             AcceptingTermsAndConditionsFailed: accepting terms and conditions failed with error
@@ -96,8 +97,6 @@ class Account:
         signed_terms = self.signed_terms_and_conditions(self.substrate, self.identity.public_key)
         if signed_terms.value is None and len(signed_terms) > 0:
             return
-
-        document_hash = hashlib.md5(document_link.encode()).hexdigest()
 
         call = self.substrate.compose_call(
             "TfgridModule",

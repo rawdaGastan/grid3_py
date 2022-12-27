@@ -12,7 +12,8 @@ ALICE_ADDRESS = "5HB3uy5fQDXtcEu2yhKMNwoSgVKLnKGtmp7zniPtrotyNm8u"
 ALICE_IDENTITY = Identity.generate_from_phrase(ALICE_MNEMONICS)
 
 IP = "201:1061:b395:a8e3:5a0:f481:1102:e85a"
-DOCUMENT_LINK = "someDocument"
+DOCUMENT_LINK = "http://zos.tf/terms/v0.1"
+DOCUMENT_HASH = "9021d4dee05a661e2cb6838152c67f25"
 TEST_NAME = "test_name"
 
 GIGABYTE = 1024 * 1024 * 1024
