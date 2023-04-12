@@ -1,0 +1,26 @@
+name: Testing
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Install poetry
+        uses: actions/setup-python@v1
+
+      - run: |
+          pip install -U pip
+          pip install poetry
+          poetry install
+
+      - name: run docker image
+        run: docker run -d -p 9944:9944 dylanverstraete/tfchain:2.2.0-rc3 --dev --ws-external
+
+      - name: wait for node initialization
+        run: sleep 3
+
+      - name: Test
+        run: |
+          poetry run pytest -v .
